@@ -1,0 +1,45 @@
+# Note: there are many handy hints in comments in this example -- remove them when you've finalized your recipe
+
+# Jinja variables help maintain the recipe as you'll update the version only here.
+# Using the name variable with the URL in line 13 is conviniet
+# when copying and pasting from another recipe, but not really needed.
+{% set name = "libprofit" %}
+{% set version = "1.8.2" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://github.com/ICRAR/{{ name }}/archive/v{{ version }}.tar.gz
+  sha256: fa6e5a81a2797d7fd2b76ed7561bbf14024bea5d8dd075d7b7ab78d0174c88d3
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - {{ compiler('cxx') }}
+    - cmake
+  host:
+    - fftw
+    - gsl
+  run:
+    - fftw
+    - gsl
+
+test:
+   commands: profit-cli -V
+
+about:
+  home: http://github.com/ICRAR/libprofit
+  license: GPL-3.0
+  license_family: GPL
+  license_file: COPYING
+  summary: 'A low-level C++ library that produces images based on different luminosity profiles.'
+  doc_url: https://libprofit.readthedocs.io/
+  dev_url: https://github.com/ICRAR/libprofit
+
+extra:
+  recipe-maintainers:
+    - rtobar
